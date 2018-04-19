@@ -1,10 +1,16 @@
-﻿@model IEnumerable<ProjectCheckIn_Beta.ViewModels.BookingCalendarViewModel>
-
+﻿@model IEnumerable<ProjectCheckIn_Beta.ViewModels.BookingDayViewModel>
 <table class="table">
     <tr>
-        <!--Loop Through modelview to get days of week-->
+        @foreach (var item in Model)
+        {
+            <th>
+                @Html.DisplayText(string.Format("MMM dd", item.Date))
+                @Html.DisplayText(item.Date.DayOfWeek.ToString())
+            </th>
+        }
     </tr>
     <tr>
         <!--Loop Through modelview again to get booking details if any-->
     </tr>
 </table>
+    
