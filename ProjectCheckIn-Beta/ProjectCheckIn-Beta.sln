@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectCheckIn-Beta", "ProjectCheckIn-Beta\ProjectCheckIn-Beta.csproj", "{F94D799F-37A1-42DF-A4A7-6564FB70B4F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectCheckIn.Web", "ProjectCheckIn.Web\ProjectCheckIn.Web.csproj", "{F94D799F-37A1-42DF-A4A7-6564FB70B4F6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{22283C4E-1825-4805-AF79-D8B54925735E} = {22283C4E-1825-4805-AF79-D8B54925735E}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectCheckIn.Entities", "ProjectCheckIn.Entities\ProjectCheckIn.Entities.csproj", "{22283C4E-1825-4805-AF79-D8B54925735E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{F94D799F-37A1-42DF-A4A7-6564FB70B4F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F94D799F-37A1-42DF-A4A7-6564FB70B4F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F94D799F-37A1-42DF-A4A7-6564FB70B4F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22283C4E-1825-4805-AF79-D8B54925735E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22283C4E-1825-4805-AF79-D8B54925735E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22283C4E-1825-4805-AF79-D8B54925735E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22283C4E-1825-4805-AF79-D8B54925735E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
