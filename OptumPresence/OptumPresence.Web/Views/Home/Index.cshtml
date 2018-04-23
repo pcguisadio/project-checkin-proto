@@ -1,31 +1,47 @@
-﻿@{
+﻿@model OptumPresence.Models.Users.LoginViewModel
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Optum Presence</h1>
+    <p class="lead">Hoteling Management App</p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Keep Track of your Colleagues</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Optum Presence facilitates hoteling scheduling. Approach your manager and apply for an account now!
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Coming Soon!</h2>
+        <p>
+            Optum Presence will soon include additional features to further manage employee attendance.
+        </p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Log In</h2>
+        <hr/>
+        @using (Html.BeginForm("Login", "Home"))
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Username, "Username", new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.Username, new {@class="form-control"})
+                @Html.ValidationMessageFor(model => model.Username)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, "Password", new { @class = "control-label" })
+                @Html.PasswordFor(model => model.Password, new {@class="form-control"})
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+            <div class="row" style="margin-top: 10px">
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary"> GO! </button>     
+                </div>
+            </div>
+           
+        }
     </div>
 </div>

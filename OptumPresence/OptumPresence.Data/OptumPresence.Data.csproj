@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hoteling\Hoteling.designer.cs">
+    <Compile Include="Encryption\HashingUtility.cs" />
+    <Compile Include="EntityModels\Hoteling.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Hoteling.dbml</DependentUpon>
@@ -52,15 +54,18 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Users\Mappers\IUserMapper.cs" />
+    <Compile Include="Users\Mappers\UserMapper.cs" />
+    <Compile Include="Users\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Hoteling\Hoteling.dbml">
+    <None Include="EntityModels\Hoteling.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>Hoteling.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Hoteling\Hoteling.dbml.layout">
+    <None Include="EntityModels\Hoteling.dbml.layout">
       <DependentUpon>Hoteling.dbml</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">
@@ -70,6 +75,15 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Hoteling\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OptumPresence.Domain\OptumPresence.Domain.csproj">
+      <Project>{01c6c88d-c095-4509-a639-bf94cdde5475}</Project>
+      <Name>OptumPresence.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

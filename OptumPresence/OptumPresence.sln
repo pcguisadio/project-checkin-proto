@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptumPresence.Web", "OptumP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptumPresence.Data", "OptumPresence.Data\OptumPresence.Data.csproj", "{A7A35769-B7FA-4C0F-A257-1792AEA73852}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptumPresence.Entities", "OptumPresence.Entities\OptumPresence.Entities.csproj", "{01C6C88D-C095-4509-A639-BF94CDDE5475}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OptumPresence.Domain", "OptumPresence.Domain\OptumPresence.Domain.csproj", "{01C6C88D-C095-4509-A639-BF94CDDE5475}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OptumPresence.Data.Hoteling
+namespace OptumPresence.Data.EntityModels
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
