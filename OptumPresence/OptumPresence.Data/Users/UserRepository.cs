@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using OptumPresence.Data.Encryption;
 using OptumPresence.Data.EntityModels;
 using OptumPresence.Data.Users.Mappers;
 using OptumPresence.Domain.Entities;
 using OptumPresence.Domain.Interfaces;
+using System;
+using System.Linq;
 
 namespace OptumPresence.Data.Users
 {
@@ -30,6 +27,7 @@ namespace OptumPresence.Data.Users
         {
             this._userMapper = userMapper;
         }
+        
         #endregion
 
         #region Methods
@@ -49,6 +47,29 @@ namespace OptumPresence.Data.Users
                     result = new UserEntity();
                     //TODO: Get Position and Team info from DB.
                     this._userMapper.DataToBusiness(user, result);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Updates existing User's Password
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool ChangePassword(UserEntity user)
+        {
+            bool result = false;
+            using(var dbContext = new HotelingDataContext())
+            {
+                User userResult = dbContext.Users.FirstOrDefault(x => x.Username.Equals(user.Username.Trim()));
+                if (userResult != null)
+                {
+                    userResult.Password = HashingUtility.GetMd5Hash(user.Password);
+                    userResult.RecordUpdateDate = DateTime.Today;
+                    userResult.RecordUpdateUserID = user.Username;
+                    dbContext.SubmitChanges();
+                    result = true;
                 }
             }
             return result;

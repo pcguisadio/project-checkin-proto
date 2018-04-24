@@ -14,5 +14,12 @@ namespace OptumPresence.Domain.Interfaces
         /// </summary>
         /// <param name="username"></param>
         UserEntity GetUserByUsername(string username);
+
+        /// <summary>
+        /// Updates password of existing user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        bool ChangePassword(UserEntity user);
     }
 }

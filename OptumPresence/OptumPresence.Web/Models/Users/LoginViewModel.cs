@@ -46,5 +46,9 @@ namespace OptumPresence.Models.Users
                 
             }
         }
+
+        public string ConfirmPassword { get; set; }
+
+        public string NewPassword { get; set; }
     }
 }
