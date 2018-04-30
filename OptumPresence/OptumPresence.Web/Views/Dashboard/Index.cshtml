@@ -2,7 +2,55 @@
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
-<h2>Welcome to the Dashboard!</h2>
+    DateTime dateOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    int month = dateOfMonth.Month;
+    IEnumerable<DayOfWeek> daysOfWeek = Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>();
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.selectableDate').css('cursor', 'pointer');
+            $('.selectableDate').hover(function () {
+                $(this).css('border-color', 'black');
+            }, function () {
+                $(this).css('border-color', '#DDDDDD');
+            });
+        });
+    </script>
+}
+<h2>Hoteling Schedule for <b>@dateOfMonth.ToString("MMMM")</b> </h2>
+
+<table class="table table-bordered" style="margin-top: 20px">
+    <tr style="background-color: #FF8B00">
+        <th>Sun</th>
+        <th>Mon</th>
+        <th>Tues</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+    </tr>
+    @do
+    {
+        <tr style="height: 200px">
+            @foreach (DayOfWeek dayOfWeek in daysOfWeek)
+            {
+                    if (dateOfMonth.DayOfWeek == dayOfWeek && dateOfMonth.Month == month)
+                    {
+                        <td class="selectableDate">
+                            <p class="text-left" style="font-weight: bold">@dateOfMonth.ToString("dd")</p>
+                        </td>
+                        dateOfMonth = dateOfMonth.AddDays(1);
+                    }
+                    else
+                    {
+                        <td style="background-color: #B89F81"></td>
+                    }
+            }
+        </tr>
+    } while (dateOfMonth.Month == month);
+
+</table>
+
 
