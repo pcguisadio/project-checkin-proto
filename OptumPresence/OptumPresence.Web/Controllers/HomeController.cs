@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
 using OptumPresence.Domain.Interfaces;
 using OptumPresence.Models.Users;
+using OptumPresence.Data.Encryption;
 
 namespace OptumPresence.Controllers
 {
@@ -43,7 +44,7 @@ namespace OptumPresence.Controllers
             if (this.ModelState.IsValid)
             {
                 var user = _userRepository.GetUserByUsername(viewModel.Username);
-                if (user == null || !user.Password.Equals(viewModel.Password))
+                if (user == null || !user.Password.Equals(HashingUtility.GetMd5Hash(viewModel.Password)))
                 {
                     this.ModelState.AddModelError("Username", "Username or Password is incorrect.");
                 }
@@ -101,13 +102,12 @@ namespace OptumPresence.Controllers
                 if (user == null)
                 {
                     this.ModelState.AddModelError("Username", "Session invalid, Please Log In");
-                    return View("Index", new LoginViewModel());
                 }
-                else if (!user.Password.Equals(viewModel.Password))
+                else if (!user.Password.Equals(HashingUtility.GetMd5Hash(viewModel.Password)))
                 {
                     this.ModelState.AddModelError("Password", "Password is incorrect.");
                 }
-                else if (!viewModel.Password.Equals(viewModel.ConfirmPassword))
+                else if (!viewModel.NewPassword.Equals(viewModel.ConfirmPassword))
                 {
                     this.ModelState.AddModelError("ConfirmPassword", "Password Does not Match");
                 } 
