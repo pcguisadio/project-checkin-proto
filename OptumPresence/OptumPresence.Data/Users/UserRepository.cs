@@ -45,7 +45,6 @@ namespace OptumPresence.Data.Users
                 if (user != null)
                 {
                     result = new UserEntity();
-                    //TODO: Get Position and Team info from DB.
                     this._userMapper.DataToBusiness(user, result);
                 }
             }

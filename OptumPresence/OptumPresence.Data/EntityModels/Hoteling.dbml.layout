@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Hoteling">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 13.875, 8.5" name="Hoteling">
   <DataContextMoniker Name="/HotelingDataContext" />
   <nestedChildShapes>
     <classShape Id="6f2077ce-382c-4b78-aa95-aec0604b07a3" absoluteBounds="1.5, 0.75, 2, 2.9247054036458331">
@@ -8,5 +8,57 @@
         <elementListCompartment Id="69b1ca9c-f182-447a-b70a-b992d3b17868" absoluteBounds="1.5149999999999997, 1.21, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="1de3acfa-f7ff-4f95-be8b-3452284ecd9b" absoluteBounds="5, 0.75, 2, 1.9631982421875">
+      <DataClassMoniker Name="/HotelingDataContext/Position" />
+      <nestedChildShapes>
+        <elementListCompartment Id="d9a39f10-a066-46d2-aca9-98dbfc052512" absoluteBounds="5.015, 1.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5 : 1.73159912109375); (3.5 : 1.73159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/HotelingDataContext/Position/Position_User" />
+      <nodes>
+        <classShapeMoniker Id="1de3acfa-f7ff-4f95-be8b-3452284ecd9b" />
+        <classShapeMoniker Id="6f2077ce-382c-4b78-aa95-aec0604b07a3" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="cb39f4ce-436d-497e-ace4-7ce40e15b24b" absoluteBounds="5, 3.75, 2, 1.9631982421875">
+      <DataClassMoniker Name="/HotelingDataContext/Team" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bf6fbcaa-28a3-4ae0-9a58-2efca6ed83d3" absoluteBounds="5.015, 4.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5 : 4.73159912109375); (2.5 : 4.73159912109375); (2.5 : 3.67470540364583)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/HotelingDataContext/Team/Team_User" />
+      <nodes>
+        <classShapeMoniker Id="cb39f4ce-436d-497e-ace4-7ce40e15b24b" />
+        <classShapeMoniker Id="6f2077ce-382c-4b78-aa95-aec0604b07a3" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="4d12adc5-6b8e-4b8d-9d11-91e1f7c51b6e" absoluteBounds="8.875, 0.75, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/HotelingDataContext/Schedule" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6982c618-7eb6-46ac-a428-127d922c58f8" absoluteBounds="8.89, 1.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(3.5 : 3.12905110677083); (8.875 : 3.12905110677083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/HotelingDataContext/User/User_Schedule" />
+      <nodes>
+        <classShapeMoniker Id="6f2077ce-382c-4b78-aa95-aec0604b07a3" />
+        <classShapeMoniker Id="4d12adc5-6b8e-4b8d-9d11-91e1f7c51b6e" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="1a38008d-4265-4055-9946-70f62e2c8ec9" absoluteBounds="11.625, 0.75, 2, 1.9631982421875">
+      <DataClassMoniker Name="/HotelingDataContext/Status" />
+      <nestedChildShapes>
+        <elementListCompartment Id="71dc05be-259c-4a2b-868b-3f5f46b9c42b" absoluteBounds="11.64, 1.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(11.625 : 1.73159912109375); (10.875 : 1.73159912109375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/HotelingDataContext/Status/Status_Schedule" />
+      <nodes>
+        <classShapeMoniker Id="1a38008d-4265-4055-9946-70f62e2c8ec9" />
+        <classShapeMoniker Id="4d12adc5-6b8e-4b8d-9d11-91e1f7c51b6e" />
+      </nodes>
+    </associationConnector>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

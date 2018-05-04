@@ -8,6 +8,6 @@ namespace OptumPresence.Models.Dashboard
 {
     public class DashboardViewModel : ViewModelBase
     {
-
+        
     }
 }

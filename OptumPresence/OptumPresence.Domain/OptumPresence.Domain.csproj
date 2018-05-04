@@ -41,9 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\EntityBase.cs" />
+    <Compile Include="Entities\StatusEntity.cs" />
     <Compile Include="Entities\PositionEntity.cs" />
     <Compile Include="Entities\TeamEntity.cs" />
+    <Compile Include="Entities\ScheduleEntity.cs" />
     <Compile Include="Entities\UserEntity.cs" />
+    <Compile Include="Interfaces\IHotelingRepository.cs" />
     <Compile Include="Interfaces\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

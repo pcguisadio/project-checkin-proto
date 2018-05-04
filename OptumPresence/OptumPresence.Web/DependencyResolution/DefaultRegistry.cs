@@ -15,6 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
+using OptumPresence.Data.Hoteling;
+using OptumPresence.Data.Hoteling.Mappers;
 using OptumPresence.Domain.Interfaces;
 using OptumPresence.Data.Users;
 using OptumPresence.Data.Users.Mappers;
@@ -35,7 +37,9 @@ namespace OptumPresence.DependencyResolution {
 					scan.With(new ControllerConvention());
                 });
             For<IUserRepository>().Use<UserRepository>();
+            For<IHotelingRepository>().Use<HotelingRepository>();
             For<IUserMapper>().Use<UserMapper>();
+            For<IHotelingMapper>().Use<HotelingMapper>();
         }
 
         #endregion

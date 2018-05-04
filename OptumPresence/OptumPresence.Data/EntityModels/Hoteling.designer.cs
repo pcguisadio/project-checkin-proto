@@ -33,6 +33,18 @@ namespace OptumPresence.Data.EntityModels
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
+    partial void InsertPosition(Position instance);
+    partial void UpdatePosition(Position instance);
+    partial void DeletePosition(Position instance);
+    partial void InsertTeam(Team instance);
+    partial void UpdateTeam(Team instance);
+    partial void DeleteTeam(Team instance);
+    partial void InsertSchedule(Schedule instance);
+    partial void UpdateSchedule(Schedule instance);
+    partial void DeleteSchedule(Schedule instance);
+    partial void InsertStatus(Status instance);
+    partial void UpdateStatus(Status instance);
+    partial void DeleteStatus(Status instance);
     #endregion
 		
 		public HotelingDataContext() : 
@@ -72,6 +84,38 @@ namespace OptumPresence.Data.EntityModels
 				return this.GetTable<User>();
 			}
 		}
+		
+		public System.Data.Linq.Table<Position> Positions
+		{
+			get
+			{
+				return this.GetTable<Position>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Team> Teams
+		{
+			get
+			{
+				return this.GetTable<Team>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Schedule> Schedules
+		{
+			get
+			{
+				return this.GetTable<Schedule>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Status> Status
+		{
+			get
+			{
+				return this.GetTable<Status>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
@@ -101,6 +145,12 @@ namespace OptumPresence.Data.EntityModels
 		private System.DateTime _RecordUpdateDate;
 		
 		private string _RecordUpdateUserID;
+		
+		private EntitySet<Schedule> _Schedules;
+		
+		private EntityRef<Position> _Position;
+		
+		private EntityRef<Team> _Team;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -132,6 +182,9 @@ namespace OptumPresence.Data.EntityModels
 		
 		public User()
 		{
+			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			this._Position = default(EntityRef<Position>);
+			this._Team = default(EntityRef<Team>);
 			OnCreated();
 		}
 		
@@ -246,6 +299,10 @@ namespace OptumPresence.Data.EntityModels
 			{
 				if ((this._PositionUID != value))
 				{
+					if (this._Position.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnPositionUIDChanging(value);
 					this.SendPropertyChanging();
 					this._PositionUID = value;
@@ -266,6 +323,10 @@ namespace OptumPresence.Data.EntityModels
 			{
 				if ((this._TeamUID != value))
 				{
+					if (this._Team.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.OnTeamUIDChanging(value);
 					this.SendPropertyChanging();
 					this._TeamUID = value;
@@ -355,6 +416,87 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Schedule", Storage="_Schedules", ThisKey="UserUID", OtherKey="UserUID")]
+		public EntitySet<Schedule> Schedules
+		{
+			get
+			{
+				return this._Schedules;
+			}
+			set
+			{
+				this._Schedules.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_User", Storage="_Position", ThisKey="PositionUID", OtherKey="PositionUID", IsForeignKey=true)]
+		public Position Position
+		{
+			get
+			{
+				return this._Position.Entity;
+			}
+			set
+			{
+				Position previousValue = this._Position.Entity;
+				if (((previousValue != value) 
+							|| (this._Position.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Position.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._Position.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._PositionUID = value.PositionUID;
+					}
+					else
+					{
+						this._PositionUID = default(Nullable<long>);
+					}
+					this.SendPropertyChanged("Position");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_User", Storage="_Team", ThisKey="TeamUID", OtherKey="TeamUID", IsForeignKey=true)]
+		public Team Team
+		{
+			get
+			{
+				return this._Team.Entity;
+			}
+			set
+			{
+				Team previousValue = this._Team.Entity;
+				if (((previousValue != value) 
+							|| (this._Team.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Team.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._Team.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._TeamUID = value.TeamUID;
+					}
+					else
+					{
+						this._TeamUID = default(Nullable<long>);
+					}
+					this.SendPropertyChanged("Team");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -373,6 +515,1008 @@ namespace OptumPresence.Data.EntityModels
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Position")]
+	public partial class Position : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _PositionUID;
+		
+		private string _PositionName;
+		
+		private System.DateTime _RecordCreateDate;
+		
+		private string _RecordCreateUserID;
+		
+		private System.DateTime _RecordUpdateDate;
+		
+		private string _RecordUpdateUserID;
+		
+		private EntitySet<User> _Users;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnPositionUIDChanging(long value);
+    partial void OnPositionUIDChanged();
+    partial void OnPositionNameChanging(string value);
+    partial void OnPositionNameChanged();
+    partial void OnRecordCreateDateChanging(System.DateTime value);
+    partial void OnRecordCreateDateChanged();
+    partial void OnRecordCreateUserIDChanging(string value);
+    partial void OnRecordCreateUserIDChanged();
+    partial void OnRecordUpdateDateChanging(System.DateTime value);
+    partial void OnRecordUpdateDateChanged();
+    partial void OnRecordUpdateUserIDChanging(string value);
+    partial void OnRecordUpdateUserIDChanged();
+    #endregion
+		
+		public Position()
+		{
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PositionUID", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public long PositionUID
+		{
+			get
+			{
+				return this._PositionUID;
+			}
+			set
+			{
+				if ((this._PositionUID != value))
+				{
+					this.OnPositionUIDChanging(value);
+					this.SendPropertyChanging();
+					this._PositionUID = value;
+					this.SendPropertyChanged("PositionUID");
+					this.OnPositionUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PositionName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string PositionName
+		{
+			get
+			{
+				return this._PositionName;
+			}
+			set
+			{
+				if ((this._PositionName != value))
+				{
+					this.OnPositionNameChanging(value);
+					this.SendPropertyChanging();
+					this._PositionName = value;
+					this.SendPropertyChanged("PositionName");
+					this.OnPositionNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordCreateDate", DbType="Date NOT NULL")]
+		public System.DateTime RecordCreateDate
+		{
+			get
+			{
+				return this._RecordCreateDate;
+			}
+			set
+			{
+				if ((this._RecordCreateDate != value))
+				{
+					this.OnRecordCreateDateChanging(value);
+					this.SendPropertyChanging();
+					this._RecordCreateDate = value;
+					this.SendPropertyChanged("RecordCreateDate");
+					this.OnRecordCreateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordCreateUserID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string RecordCreateUserID
+		{
+			get
+			{
+				return this._RecordCreateUserID;
+			}
+			set
+			{
+				if ((this._RecordCreateUserID != value))
+				{
+					this.OnRecordCreateUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecordCreateUserID = value;
+					this.SendPropertyChanged("RecordCreateUserID");
+					this.OnRecordCreateUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordUpdateDate", DbType="Date NOT NULL")]
+		public System.DateTime RecordUpdateDate
+		{
+			get
+			{
+				return this._RecordUpdateDate;
+			}
+			set
+			{
+				if ((this._RecordUpdateDate != value))
+				{
+					this.OnRecordUpdateDateChanging(value);
+					this.SendPropertyChanging();
+					this._RecordUpdateDate = value;
+					this.SendPropertyChanged("RecordUpdateDate");
+					this.OnRecordUpdateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordUpdateUserID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string RecordUpdateUserID
+		{
+			get
+			{
+				return this._RecordUpdateUserID;
+			}
+			set
+			{
+				if ((this._RecordUpdateUserID != value))
+				{
+					this.OnRecordUpdateUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecordUpdateUserID = value;
+					this.SendPropertyChanged("RecordUpdateUserID");
+					this.OnRecordUpdateUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_User", Storage="_Users", ThisKey="PositionUID", OtherKey="PositionUID")]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Position = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Position = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team")]
+	public partial class Team : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _TeamUID;
+		
+		private string _TeamName;
+		
+		private System.DateTime _RecordCreateDate;
+		
+		private string _RecordCreateUserID;
+		
+		private System.DateTime _RecordUpdateDate;
+		
+		private string _RecordUpdateUserID;
+		
+		private EntitySet<User> _Users;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnTeamUIDChanging(long value);
+    partial void OnTeamUIDChanged();
+    partial void OnTeamNameChanging(string value);
+    partial void OnTeamNameChanged();
+    partial void OnRecordCreateDateChanging(System.DateTime value);
+    partial void OnRecordCreateDateChanged();
+    partial void OnRecordCreateUserIDChanging(string value);
+    partial void OnRecordCreateUserIDChanged();
+    partial void OnRecordUpdateDateChanging(System.DateTime value);
+    partial void OnRecordUpdateDateChanged();
+    partial void OnRecordUpdateUserIDChanging(string value);
+    partial void OnRecordUpdateUserIDChanged();
+    #endregion
+		
+		public Team()
+		{
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamUID", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public long TeamUID
+		{
+			get
+			{
+				return this._TeamUID;
+			}
+			set
+			{
+				if ((this._TeamUID != value))
+				{
+					this.OnTeamUIDChanging(value);
+					this.SendPropertyChanging();
+					this._TeamUID = value;
+					this.SendPropertyChanged("TeamUID");
+					this.OnTeamUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TeamName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string TeamName
+		{
+			get
+			{
+				return this._TeamName;
+			}
+			set
+			{
+				if ((this._TeamName != value))
+				{
+					this.OnTeamNameChanging(value);
+					this.SendPropertyChanging();
+					this._TeamName = value;
+					this.SendPropertyChanged("TeamName");
+					this.OnTeamNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordCreateDate", DbType="Date NOT NULL")]
+		public System.DateTime RecordCreateDate
+		{
+			get
+			{
+				return this._RecordCreateDate;
+			}
+			set
+			{
+				if ((this._RecordCreateDate != value))
+				{
+					this.OnRecordCreateDateChanging(value);
+					this.SendPropertyChanging();
+					this._RecordCreateDate = value;
+					this.SendPropertyChanged("RecordCreateDate");
+					this.OnRecordCreateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordCreateUserID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string RecordCreateUserID
+		{
+			get
+			{
+				return this._RecordCreateUserID;
+			}
+			set
+			{
+				if ((this._RecordCreateUserID != value))
+				{
+					this.OnRecordCreateUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecordCreateUserID = value;
+					this.SendPropertyChanged("RecordCreateUserID");
+					this.OnRecordCreateUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordUpdateDate", DbType="Date NOT NULL")]
+		public System.DateTime RecordUpdateDate
+		{
+			get
+			{
+				return this._RecordUpdateDate;
+			}
+			set
+			{
+				if ((this._RecordUpdateDate != value))
+				{
+					this.OnRecordUpdateDateChanging(value);
+					this.SendPropertyChanging();
+					this._RecordUpdateDate = value;
+					this.SendPropertyChanged("RecordUpdateDate");
+					this.OnRecordUpdateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordUpdateUserID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string RecordUpdateUserID
+		{
+			get
+			{
+				return this._RecordUpdateUserID;
+			}
+			set
+			{
+				if ((this._RecordUpdateUserID != value))
+				{
+					this.OnRecordUpdateUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecordUpdateUserID = value;
+					this.SendPropertyChanged("RecordUpdateUserID");
+					this.OnRecordUpdateUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_User", Storage="_Users", ThisKey="TeamUID", OtherKey="TeamUID")]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Team = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Team = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Schedule")]
+	public partial class Schedule : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private long _ScheduleUID;
+		
+		private long _UserUID;
+		
+		private System.DateTime _ScheduleDate;
+		
+		private System.DateTime _ApplicationDate;
+		
+		private short _StatusUID;
+		
+		private string _ApprovedBy;
+		
+		private System.DateTime _RecordCreateDate;
+		
+		private string _RecordCreateUserID;
+		
+		private System.DateTime _RecordUpdateDate;
+		
+		private string _RecordUpdateUserID;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<Status> _Status;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnScheduleUIDChanging(long value);
+    partial void OnScheduleUIDChanged();
+    partial void OnUserUIDChanging(long value);
+    partial void OnUserUIDChanged();
+    partial void OnScheduleDateChanging(System.DateTime value);
+    partial void OnScheduleDateChanged();
+    partial void OnApplicationDateChanging(System.DateTime value);
+    partial void OnApplicationDateChanged();
+    partial void OnStatusUIDChanging(short value);
+    partial void OnStatusUIDChanged();
+    partial void OnApprovedByChanging(string value);
+    partial void OnApprovedByChanged();
+    partial void OnRecordCreateDateChanging(System.DateTime value);
+    partial void OnRecordCreateDateChanged();
+    partial void OnRecordCreateUserIDChanging(string value);
+    partial void OnRecordCreateUserIDChanged();
+    partial void OnRecordUpdateDateChanging(System.DateTime value);
+    partial void OnRecordUpdateDateChanged();
+    partial void OnRecordUpdateUserIDChanging(string value);
+    partial void OnRecordUpdateUserIDChanged();
+    #endregion
+		
+		public Schedule()
+		{
+			this._User = default(EntityRef<User>);
+			this._Status = default(EntityRef<Status>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleUID", AutoSync=AutoSync.OnInsert, DbType="BigInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public long ScheduleUID
+		{
+			get
+			{
+				return this._ScheduleUID;
+			}
+			set
+			{
+				if ((this._ScheduleUID != value))
+				{
+					this.OnScheduleUIDChanging(value);
+					this.SendPropertyChanging();
+					this._ScheduleUID = value;
+					this.SendPropertyChanged("ScheduleUID");
+					this.OnScheduleUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserUID", DbType="BigInt NOT NULL")]
+		public long UserUID
+		{
+			get
+			{
+				return this._UserUID;
+			}
+			set
+			{
+				if ((this._UserUID != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnUserUIDChanging(value);
+					this.SendPropertyChanging();
+					this._UserUID = value;
+					this.SendPropertyChanged("UserUID");
+					this.OnUserUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScheduleDate", DbType="Date NOT NULL")]
+		public System.DateTime ScheduleDate
+		{
+			get
+			{
+				return this._ScheduleDate;
+			}
+			set
+			{
+				if ((this._ScheduleDate != value))
+				{
+					this.OnScheduleDateChanging(value);
+					this.SendPropertyChanging();
+					this._ScheduleDate = value;
+					this.SendPropertyChanged("ScheduleDate");
+					this.OnScheduleDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplicationDate", DbType="Date NOT NULL")]
+		public System.DateTime ApplicationDate
+		{
+			get
+			{
+				return this._ApplicationDate;
+			}
+			set
+			{
+				if ((this._ApplicationDate != value))
+				{
+					this.OnApplicationDateChanging(value);
+					this.SendPropertyChanging();
+					this._ApplicationDate = value;
+					this.SendPropertyChanged("ApplicationDate");
+					this.OnApplicationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusUID", DbType="SmallInt NOT NULL")]
+		public short StatusUID
+		{
+			get
+			{
+				return this._StatusUID;
+			}
+			set
+			{
+				if ((this._StatusUID != value))
+				{
+					if (this._Status.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStatusUIDChanging(value);
+					this.SendPropertyChanging();
+					this._StatusUID = value;
+					this.SendPropertyChanged("StatusUID");
+					this.OnStatusUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovedBy", DbType="VarChar(30)")]
+		public string ApprovedBy
+		{
+			get
+			{
+				return this._ApprovedBy;
+			}
+			set
+			{
+				if ((this._ApprovedBy != value))
+				{
+					this.OnApprovedByChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovedBy = value;
+					this.SendPropertyChanged("ApprovedBy");
+					this.OnApprovedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordCreateDate", DbType="Date NOT NULL")]
+		public System.DateTime RecordCreateDate
+		{
+			get
+			{
+				return this._RecordCreateDate;
+			}
+			set
+			{
+				if ((this._RecordCreateDate != value))
+				{
+					this.OnRecordCreateDateChanging(value);
+					this.SendPropertyChanging();
+					this._RecordCreateDate = value;
+					this.SendPropertyChanged("RecordCreateDate");
+					this.OnRecordCreateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordCreateUserID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string RecordCreateUserID
+		{
+			get
+			{
+				return this._RecordCreateUserID;
+			}
+			set
+			{
+				if ((this._RecordCreateUserID != value))
+				{
+					this.OnRecordCreateUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecordCreateUserID = value;
+					this.SendPropertyChanged("RecordCreateUserID");
+					this.OnRecordCreateUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordUpdateDate", DbType="Date NOT NULL")]
+		public System.DateTime RecordUpdateDate
+		{
+			get
+			{
+				return this._RecordUpdateDate;
+			}
+			set
+			{
+				if ((this._RecordUpdateDate != value))
+				{
+					this.OnRecordUpdateDateChanging(value);
+					this.SendPropertyChanging();
+					this._RecordUpdateDate = value;
+					this.SendPropertyChanged("RecordUpdateDate");
+					this.OnRecordUpdateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordUpdateUserID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string RecordUpdateUserID
+		{
+			get
+			{
+				return this._RecordUpdateUserID;
+			}
+			set
+			{
+				if ((this._RecordUpdateUserID != value))
+				{
+					this.OnRecordUpdateUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecordUpdateUserID = value;
+					this.SendPropertyChanged("RecordUpdateUserID");
+					this.OnRecordUpdateUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Schedule", Storage="_User", ThisKey="UserUID", OtherKey="UserUID", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Schedules.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Schedules.Add(this);
+						this._UserUID = value.UserUID;
+					}
+					else
+					{
+						this._UserUID = default(long);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Status_Schedule", Storage="_Status", ThisKey="StatusUID", OtherKey="StatusUID", IsForeignKey=true)]
+		public Status Status
+		{
+			get
+			{
+				return this._Status.Entity;
+			}
+			set
+			{
+				Status previousValue = this._Status.Entity;
+				if (((previousValue != value) 
+							|| (this._Status.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Status.Entity = null;
+						previousValue.Schedules.Remove(this);
+					}
+					this._Status.Entity = value;
+					if ((value != null))
+					{
+						value.Schedules.Add(this);
+						this._StatusUID = value.StatusUID;
+					}
+					else
+					{
+						this._StatusUID = default(short);
+					}
+					this.SendPropertyChanged("Status");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Status")]
+	public partial class Status : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private short _StatusUID;
+		
+		private string _StatusDescription;
+		
+		private System.DateTime _RecordCreateDate;
+		
+		private string _RecordCreateUserID;
+		
+		private System.DateTime _RecordUpdateDate;
+		
+		private string _RecordUpdateUserID;
+		
+		private EntitySet<Schedule> _Schedules;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnStatusUIDChanging(short value);
+    partial void OnStatusUIDChanged();
+    partial void OnStatusDescriptionChanging(string value);
+    partial void OnStatusDescriptionChanged();
+    partial void OnRecordCreateDateChanging(System.DateTime value);
+    partial void OnRecordCreateDateChanged();
+    partial void OnRecordCreateUserIDChanging(string value);
+    partial void OnRecordCreateUserIDChanged();
+    partial void OnRecordUpdateDateChanging(System.DateTime value);
+    partial void OnRecordUpdateDateChanged();
+    partial void OnRecordUpdateUserIDChanging(string value);
+    partial void OnRecordUpdateUserIDChanged();
+    #endregion
+		
+		public Status()
+		{
+			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusUID", AutoSync=AutoSync.OnInsert, DbType="SmallInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public short StatusUID
+		{
+			get
+			{
+				return this._StatusUID;
+			}
+			set
+			{
+				if ((this._StatusUID != value))
+				{
+					this.OnStatusUIDChanging(value);
+					this.SendPropertyChanging();
+					this._StatusUID = value;
+					this.SendPropertyChanged("StatusUID");
+					this.OnStatusUIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusDescription", DbType="VarChar(20) NOT NULL", CanBeNull=false)]
+		public string StatusDescription
+		{
+			get
+			{
+				return this._StatusDescription;
+			}
+			set
+			{
+				if ((this._StatusDescription != value))
+				{
+					this.OnStatusDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._StatusDescription = value;
+					this.SendPropertyChanged("StatusDescription");
+					this.OnStatusDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordCreateDate", DbType="Date NOT NULL")]
+		public System.DateTime RecordCreateDate
+		{
+			get
+			{
+				return this._RecordCreateDate;
+			}
+			set
+			{
+				if ((this._RecordCreateDate != value))
+				{
+					this.OnRecordCreateDateChanging(value);
+					this.SendPropertyChanging();
+					this._RecordCreateDate = value;
+					this.SendPropertyChanged("RecordCreateDate");
+					this.OnRecordCreateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordCreateUserID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string RecordCreateUserID
+		{
+			get
+			{
+				return this._RecordCreateUserID;
+			}
+			set
+			{
+				if ((this._RecordCreateUserID != value))
+				{
+					this.OnRecordCreateUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecordCreateUserID = value;
+					this.SendPropertyChanged("RecordCreateUserID");
+					this.OnRecordCreateUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordUpdateDate", DbType="Date NOT NULL")]
+		public System.DateTime RecordUpdateDate
+		{
+			get
+			{
+				return this._RecordUpdateDate;
+			}
+			set
+			{
+				if ((this._RecordUpdateDate != value))
+				{
+					this.OnRecordUpdateDateChanging(value);
+					this.SendPropertyChanging();
+					this._RecordUpdateDate = value;
+					this.SendPropertyChanged("RecordUpdateDate");
+					this.OnRecordUpdateDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecordUpdateUserID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string RecordUpdateUserID
+		{
+			get
+			{
+				return this._RecordUpdateUserID;
+			}
+			set
+			{
+				if ((this._RecordUpdateUserID != value))
+				{
+					this.OnRecordUpdateUserIDChanging(value);
+					this.SendPropertyChanging();
+					this._RecordUpdateUserID = value;
+					this.SendPropertyChanged("RecordUpdateUserID");
+					this.OnRecordUpdateUserIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Status_Schedule", Storage="_Schedules", ThisKey="StatusUID", OtherKey="StatusUID")]
+		public EntitySet<Schedule> Schedules
+		{
+			get
+			{
+				return this._Schedules;
+			}
+			set
+			{
+				this._Schedules.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Status = this;
+		}
+		
+		private void detach_Schedules(Schedule entity)
+		{
+			this.SendPropertyChanging();
+			entity.Status = null;
 		}
 	}
 }

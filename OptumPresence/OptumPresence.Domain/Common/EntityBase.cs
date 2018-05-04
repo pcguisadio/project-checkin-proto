@@ -12,8 +12,8 @@ namespace OptumPresence.Domain.Common
     public class EntityBase
     {
         public DateTime RecordCreateDate { get; set; }
-        public DateTime RecordCreateUserId { get; set; }
+        public string RecordCreateUserId { get; set; }
         public DateTime RecordUpdateDate { get; set; }
-        public DateTime RecordUpdateUserId { get; set; }
+        public string RecordUpdateUserId { get; set; }
     }
 }
