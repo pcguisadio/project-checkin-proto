@@ -162,6 +162,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dashboard\DashboardViewModel.cs" />
+    <Compile Include="Models\Dashboard\ScheduleListViewModel.cs" />
     <Compile Include="Models\Shared\ViewModelBase.cs" />
     <Compile Include="Models\Users\LoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

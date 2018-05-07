@@ -17,7 +17,8 @@ namespace OptumPresence.Models.Shared
         /// <summary>
         /// Current Date for timestamping and other uses.
         /// </summary>
-        public DateTime CurrentDate {
+        public DateTime CurrentDate
+        {
             get { return DateTime.Now; }
         }
 
