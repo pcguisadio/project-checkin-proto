@@ -7,6 +7,7 @@ using Microsoft.Ajax.Utilities;
 using OptumPresence.Domain.Interfaces;
 using OptumPresence.Models.Users;
 using OptumPresence.Data.Encryption;
+using OptumPresence.Models.Dashboard;
 
 namespace OptumPresence.Controllers
 {
@@ -52,8 +53,7 @@ namespace OptumPresence.Controllers
                 {
                     //TODO: Make constant variables for session keys
                     Session["Username"] = user.Username;
-                    viewModel.CurrentUser = user;
-                    //TODO: prepare dashboard model and pass to view
+
                     return View("~/Views/Dashboard/Index.cshtml");
                 }
             }

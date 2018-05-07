@@ -9,7 +9,7 @@ namespace OptumPresence.Models.Dashboard
 {
     public class ScheduleListViewModel : ViewModelBase
     {
-        public DateTime date { get; set; }
-        public List<ScheduleEntity> schedules;
+        public DateTime Date { get; set; }
+        public List<ScheduleEntity> Schedules;
     }
 }

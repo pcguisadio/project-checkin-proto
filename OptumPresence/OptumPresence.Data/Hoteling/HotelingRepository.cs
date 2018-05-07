@@ -76,7 +76,7 @@ namespace OptumPresence.Data.Hoteling
             using (HotelingDataContext dbContext = new HotelingDataContext())
             {
                 var query = dbContext.Schedules.Where(sched =>
-                    sched.User.TeamUID == teamUid && sched.ScheduleDate >= startDate && sched.ScheduleDate <= endDate).ToList();
+                    sched.User.TeamUID == teamUid && sched.ScheduleDate >= startDate && sched.ScheduleDate <= endDate).OrderBy(order => order.ScheduleDate).ToList();
                 foreach (Schedule schedule in query)
                 {
                     ScheduleEntity scheduleEntity = new ScheduleEntity();
