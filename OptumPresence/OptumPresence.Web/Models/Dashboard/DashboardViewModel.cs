@@ -25,7 +25,6 @@ namespace OptumPresence.Models.Dashboard
             set
             {
                 base.CurrentUser.Team.TeamUID = value;
-                
             }
         }
     }
