@@ -24,16 +24,9 @@ namespace OptumPresence.Controllers
         {
             if (Session["Username"] != null)
             {
-                return View("~/Views/Dashboard/Index.cshtml");
+                return RedirectToAction("Index", "Dashboard");
             }
             return View(new LoginViewModel());
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
 
         /// <summary>
@@ -54,7 +47,7 @@ namespace OptumPresence.Controllers
                     //TODO: Make constant variables for session keys
                     Session["Username"] = user.Username;
 
-                    return View("~/Views/Dashboard/Index.cshtml");
+                    return RedirectToAction("Index", "Dashboard");
                 }
             }
             return View("Index", viewModel);
@@ -115,9 +108,8 @@ namespace OptumPresence.Controllers
                 {
                     user.Password = viewModel.NewPassword;
                     this._userRepository.ChangePassword(user);
-                    viewModel.CurrentUser = user;
-                    //TODO: prepare dashboard model and pass to view
-                    return View("~/Views/Dashboard/Index.cshtml");
+ 
+                    return RedirectToAction("Index", "Dashboard");
                 }
             }
             return View(viewModel);

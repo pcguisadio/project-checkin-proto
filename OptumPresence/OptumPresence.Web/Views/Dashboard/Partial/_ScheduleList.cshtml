@@ -1,0 +1,41 @@
+﻿@model OptumPresence.Models.Dashboard.ScheduleListViewModel
+
+<div class="row">
+    <div class="col-sm-8">
+        <p style="font-weight: bold">@Model.Date.ToString("dd")</p>
+    </div>
+    <div class="col-sm-4">
+        @if (!Model.HasExistingSchedule)
+        {
+            <button id="@("btnAddSched_" + Model.Date.Day)" class="pull-right btn-sm btn-primary" onclick="AddSchedule('@Model.Date.ToString()')">+</button>
+        }
+    </div>
+    @Html.HiddenFor(model => model.Date)
+</div>
+
+@for (int counter = 0; counter < Model.Schedules.Count; counter++)
+{
+    <div class="row">
+        <div class="col-sm-8">
+            @if (Model.Schedules[counter].Status.StatusUID == 2)
+            {
+                <span class="label label-success">
+                    @Html.Label(Model.Schedules[counter].User.FirstName, new { @class = "schedUpdatable", onclick = "ShowActionModal(" + Model.Schedules[counter].ScheduleUID + ")" })
+                </span>
+            }
+            else if (Model.Schedules[counter].Status.StatusUID == 3)
+            {
+                <span class="label label-danger">
+                    @Html.Label(Model.Schedules[counter].User.FirstName, new { @class = "schedUpdatable", onclick = "ShowActionModal(" + Model.Schedules[counter].ScheduleUID + ")" })
+                </span>
+            }
+            else
+            {
+                <span class="label label-info">
+                    @Html.Label(Model.Schedules[counter].User.FirstName, new { @class = "schedUpdatable", onclick = "ShowActionModal(" + Model.Schedules[counter].ScheduleUID + ")" })
+                </span>
+            }
+        </div>
+    </div>
+}
+    

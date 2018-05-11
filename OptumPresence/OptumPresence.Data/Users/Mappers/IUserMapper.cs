@@ -18,20 +18,20 @@ namespace OptumPresence.Data.Users.Mappers
         /// </summary>
         /// <param name="user"></param>
         /// <param name="userEntity"></param>
-        void DataToBusiness(User user, UserEntity userEntity);
+        void DataToBusiness(tbl4User user, UserEntity userEntity);
 
         /// <summary>
         /// Convert position data to position entity
         /// </summary>
         /// <param name="position"></param>
         /// <param name="positionEntity"></param>
-        void DataToBusiness(Position position, PositionEntity positionEntity);
+        void DataToBusiness(tbl4Position position, PositionEntity positionEntity);
 
         /// <summary>
         /// Convert team data to team entity
         /// </summary>
         /// <param name="team"></param>
         /// <param name="teamEntity"></param>
-        void DataToBusiness(Team team, TeamEntity teamEntity);
+        void DataToBusiness(tbl4Team team, TeamEntity teamEntity);
     }
 }

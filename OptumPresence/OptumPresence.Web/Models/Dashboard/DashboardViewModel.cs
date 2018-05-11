@@ -11,12 +11,13 @@ namespace OptumPresence.Models.Dashboard
     {
         public DashboardViewModel()
         {
-            this.ScheduleDays = new List<ScheduleListViewModel>();
+            this.ScheduleDays = new Dictionary<int, ScheduleListViewModel>();
             this.SelectedDate = base.CurrentDate;
+            this.CurrentUser = new UserEntity();
         }
 
         public DateTime SelectedDate { get; set; }
-        public List<ScheduleListViewModel> ScheduleDays { get; set; }
+        public Dictionary<int, ScheduleListViewModel> ScheduleDays { get; set; }
         public long TeamUID {
             get
             {
@@ -26,6 +27,11 @@ namespace OptumPresence.Models.Dashboard
             {
                 base.CurrentUser.Team.TeamUID = value;
             }
+        }
+
+        public bool IsApprover
+        {
+            get { return this.CurrentUser.Position.PositionUID == 1 || this.CurrentUser.Position.PositionUID == 2; }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace OptumPresence.Data.Hoteling.Mappers
     /// </summary>
     public class HotelingMapper : IHotelingMapper
     {
-        public void DataToBusiness(Schedule schedule, ScheduleEntity scheduleEntity)
+        public void DataToBusiness(tbl4Schedule schedule, ScheduleEntity scheduleEntity)
         {
             if (scheduleEntity != null && schedule != null)
             {
@@ -16,11 +16,11 @@ namespace OptumPresence.Data.Hoteling.Mappers
                 scheduleEntity.ScheduleDate = schedule.ScheduleDate;
                 scheduleEntity.ApplicationDate = schedule.ApplicationDate;
                 scheduleEntity.ApprovedBy = schedule.ApprovedBy;
-                this.DataToBusiness(schedule.Status, scheduleEntity.Status);
+                this.DataToBusiness(schedule.tbl4Status, scheduleEntity.Status);
             }
         }
 
-        public void DataToBusiness(Status status, StatusEntity statusEntity)
+        public void DataToBusiness(tbl4Status status, StatusEntity statusEntity)
         {
             if (statusEntity != null && status != null)
             {

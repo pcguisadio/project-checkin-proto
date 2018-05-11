@@ -41,7 +41,7 @@ namespace OptumPresence.Data.Users
             UserEntity result = null;
             using (var dbContext = new HotelingDataContext())
             {
-                User user = dbContext.Users.FirstOrDefault(x => x.Username.Equals(username.Trim()));
+                tbl4User user = dbContext.tbl4Users.FirstOrDefault(x => x.Username.Equals(username.Trim()));
                 if (user != null)
                 {
                     result = new UserEntity();
@@ -61,7 +61,7 @@ namespace OptumPresence.Data.Users
             bool result = false;
             using(var dbContext = new HotelingDataContext())
             {
-                User userResult = dbContext.Users.FirstOrDefault(x => x.Username.Equals(user.Username.Trim()));
+                tbl4User userResult = dbContext.tbl4Users.FirstOrDefault(x => x.Username.Equals(user.Username.Trim()));
                 if (userResult != null)
                 {
                     userResult.Password = HashingUtility.GetMd5Hash(user.Password);

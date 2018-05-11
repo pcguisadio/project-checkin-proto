@@ -1,10 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Hoteling" Class="HotelingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=PC-HQ\SQLEXPRESS;Initial Catalog=Hoteling;Integrated Security=True" SettingsObjectName="OptumPresence.Data.Properties.Settings" SettingsPropertyName="HotelingConnectionString" Provider="System.Data.SqlClient" />
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DB_101392_mgonline" Class="HotelingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=s15.winhost.com;Initial Catalog=DB_101392_mgonline;Persist Security Info=True;User ID=DB_101392_mgonline_user" SettingsObjectName="OptumPresence.Data.Properties.Settings" SettingsPropertyName="DB_101392_mgonlineConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tbl4User" Member="tbl4Users">
+    <Type Name="tbl4User">
       <Column Name="UserUID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Username" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="FirstName" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Column Name="LastName" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Column Name="PositionUID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
@@ -13,35 +13,35 @@
       <Column Name="RecordCreateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="User_Schedule" Member="Schedules" ThisKey="UserUID" OtherKey="UserUID" Type="Schedule" />
-      <Association Name="Position_User" Member="Position" ThisKey="PositionUID" OtherKey="PositionUID" Type="Position" IsForeignKey="true" />
-      <Association Name="Team_User" Member="Team" ThisKey="TeamUID" OtherKey="TeamUID" Type="Team" IsForeignKey="true" />
+      <Association Name="tbl4User_tbl4Schedule" Member="tbl4Schedules" ThisKey="UserUID" OtherKey="UserUID" Type="tbl4Schedule" />
+      <Association Name="tbl4Position_tbl4User" Member="tbl4Position" ThisKey="PositionUID" OtherKey="PositionUID" Type="tbl4Position" IsForeignKey="true" />
+      <Association Name="tbl4Team_tbl4User" Member="tbl4Team" ThisKey="TeamUID" OtherKey="TeamUID" Type="tbl4Team" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Position" Member="Positions">
-    <Type Name="Position">
+  <Table Name="dbo.tbl4Position" Member="tbl4Positions">
+    <Type Name="tbl4Position">
       <Column Name="PositionUID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="PositionName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="RecordCreateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="RecordCreateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Position_User" Member="Users" ThisKey="PositionUID" OtherKey="PositionUID" Type="User" />
+      <Association Name="tbl4Position_tbl4User" Member="tbl4Users" ThisKey="PositionUID" OtherKey="PositionUID" Type="tbl4User" />
     </Type>
   </Table>
-  <Table Name="dbo.Team" Member="Teams">
-    <Type Name="Team">
+  <Table Name="dbo.tbl4Team" Member="tbl4Teams">
+    <Type Name="tbl4Team">
       <Column Name="TeamUID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TeamName" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="RecordCreateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="RecordCreateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Team_User" Member="Users" ThisKey="TeamUID" OtherKey="TeamUID" Type="User" />
+      <Association Name="tbl4Team_tbl4User" Member="tbl4Users" ThisKey="TeamUID" OtherKey="TeamUID" Type="tbl4User" />
     </Type>
   </Table>
-  <Table Name="dbo.Schedule" Member="Schedules">
-    <Type Name="Schedule">
+  <Table Name="dbo.tbl4Schedule" Member="tbl4Schedules">
+    <Type Name="tbl4Schedule">
       <Column Name="ScheduleUID" Type="System.Int64" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="UserUID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
       <Column Name="ScheduleDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
@@ -52,19 +52,19 @@
       <Column Name="RecordCreateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="User_Schedule" Member="User" ThisKey="UserUID" OtherKey="UserUID" Type="User" IsForeignKey="true" />
-      <Association Name="Status_Schedule" Member="Status" ThisKey="StatusUID" OtherKey="StatusUID" Type="Status" IsForeignKey="true" />
+      <Association Name="tbl4User_tbl4Schedule" Member="tbl4User" ThisKey="UserUID" OtherKey="UserUID" Type="tbl4User" IsForeignKey="true" />
+      <Association Name="tbl4Status_tbl4Schedule" Member="tbl4Status" ThisKey="StatusUID" OtherKey="StatusUID" Type="tbl4Status" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Status" Member="Status">
-    <Type Name="Status">
+  <Table Name="dbo.tbl4Status" Member="tbl4Status">
+    <Type Name="tbl4Status">
       <Column Name="StatusUID" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="StatusDescription" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
       <Column Name="RecordCreateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="RecordCreateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateDate" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="RecordUpdateUserID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Status_Schedule" Member="Schedules" ThisKey="StatusUID" OtherKey="StatusUID" Type="Schedule" />
+      <Association Name="tbl4Status_tbl4Schedule" Member="tbl4Schedules" ThisKey="StatusUID" OtherKey="StatusUID" Type="tbl4Schedule" />
     </Type>
   </Table>
 </Database>

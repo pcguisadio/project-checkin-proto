@@ -32,5 +32,16 @@ namespace OptumPresence.Data.Properties {
                 return ((string)(this["HotelingConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=s15.winhost.com;Initial Catalog=DB_101392_mgonline;Persist Security I" +
+            "nfo=True;User ID=DB_101392_mgonline_user;Password=Welcome@1")]
+        public string DB_101392_mgonlineConnectionString {
+            get {
+                return ((string)(this["DB_101392_mgonlineConnectionString"]));
+            }
+        }
     }
 }

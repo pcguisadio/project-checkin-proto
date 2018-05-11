@@ -45,20 +45,23 @@ namespace OptumPresence.Data.Hoteling
             {
                 using (HotelingDataContext dbContext = new HotelingDataContext())
                 {
-                    dbContext.Schedules.Attach(new Schedule
+                    //Check for duplicates
+                    if (!dbContext.tbl4Schedules.Any(sched => sched.ScheduleDate.Equals(scheduleEntity.ScheduleDate) && sched.UserUID == scheduleEntity.User.UserUID))
                     {
-                        UserUID = scheduleEntity.User.UserUID,
-                        ScheduleDate = scheduleEntity.ScheduleDate,
-                        ApplicationDate = scheduleEntity.ApplicationDate,
-                        StatusUID = scheduleEntity.Status.StatusUID,
-                        ApprovedBy = scheduleEntity.ApprovedBy,
-                        RecordCreateUserID = scheduleEntity.RecordCreateUserId,
-                        RecordCreateDate = scheduleEntity.RecordCreateDate,
-                        RecordUpdateDate = scheduleEntity.RecordUpdateDate,
-                        RecordUpdateUserID = scheduleEntity.RecordUpdateUserId
-                    });
-                    dbContext.SubmitChanges();
-                    success = true;
+                        dbContext.tbl4Schedules.InsertOnSubmit(new tbl4Schedule
+                        {
+                            UserUID = scheduleEntity.User.UserUID,
+                            ScheduleDate = scheduleEntity.ScheduleDate,
+                            ApplicationDate = scheduleEntity.ApplicationDate,
+                            StatusUID = scheduleEntity.Status.StatusUID,
+                            RecordCreateUserID = scheduleEntity.RecordCreateUserId,
+                            RecordCreateDate = scheduleEntity.RecordCreateDate,
+                            RecordUpdateDate = scheduleEntity.RecordUpdateDate,
+                            RecordUpdateUserID = scheduleEntity.RecordUpdateUserId
+                        });
+                        dbContext.SubmitChanges();
+                        success = true;
+                    }
                 }
             }
             catch (Exception ex)
@@ -75,13 +78,15 @@ namespace OptumPresence.Data.Hoteling
             List<ScheduleEntity> result = new List<ScheduleEntity>();
             using (HotelingDataContext dbContext = new HotelingDataContext())
             {
-                var query = dbContext.Schedules.Where(sched =>
-                    sched.User.TeamUID == teamUid && sched.ScheduleDate >= startDate && sched.ScheduleDate <= endDate).OrderBy(order => order.ScheduleDate).ToList();
-                foreach (Schedule schedule in query)
+                var query = dbContext.tbl4Schedules.Where(sched =>
+                    sched.tbl4User.TeamUID == teamUid && sched.ScheduleDate >= startDate && sched.ScheduleDate <= endDate).OrderBy(order => order.ScheduleDate).ToList();
+                foreach (tbl4Schedule schedule in query)
                 {
                     ScheduleEntity scheduleEntity = new ScheduleEntity();
                     this._hotelingMapper.DataToBusiness(schedule, scheduleEntity);
-                    this._userMapper.DataToBusiness(schedule.User, scheduleEntity.User);
+                    this._userMapper.DataToBusiness(schedule.tbl4User, scheduleEntity.User);
+
+                    result.Add(scheduleEntity);
                 }
             }
             return result;
@@ -94,11 +99,11 @@ namespace OptumPresence.Data.Hoteling
             {
                 using (HotelingDataContext dbContext = new HotelingDataContext())
                 {
-                    Schedule schedule = dbContext.Schedules.First(sched => sched.ScheduleUID == scheduleEntity.ScheduleUID);
+                    tbl4Schedule schedule = dbContext.tbl4Schedules.First(sched => sched.ScheduleUID == scheduleEntity.ScheduleUID);
                     if (schedule != null)
                     {
                         schedule.StatusUID = scheduleEntity.Status.StatusUID;
-                        schedule.RecordUpdateDate = DateTime.Now;
+                        schedule.RecordUpdateDate = scheduleEntity.RecordUpdateDate;
                         schedule.RecordUpdateUserID = scheduleEntity.RecordUpdateUserId;
                         dbContext.SubmitChanges();
                         success = true;

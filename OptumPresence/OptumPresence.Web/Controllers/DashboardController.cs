@@ -44,24 +44,83 @@ namespace OptumPresence.Controllers
             return View(viewModel);
         }
 
-        //POST: NextMonth()
-        [HttpPost]
-        public ActionResult NextMonth(DashboardViewModel viewModel)
+        // GET: Index(startDate)
+        public ActionResult GetSchedules(DateTime selectedDate)
         {
-            DateTime nextMonth = viewModel.SelectedDate.AddMonths(1);
-            DateTime startDate = new DateTime(nextMonth.Year, nextMonth.Month, 1);
-            DateTime endDate = new DateTime(nextMonth.Year, nextMonth.Month, DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month));
-            return View("Index", this.PrepareScheduleData(viewModel.CurrentUser, startDate, endDate));
+            UserEntity user = null;
+            if (Session["Username"] != null)
+            {
+                user = _userRepository.GetUserByUsername(Session["Username"].ToString());
+            }
+
+            if (user == null)
+            {
+                return View("~/Views/Home/Index.cshtml");
+            }
+
+            //Get scheds and prepare view model
+            DateTime startDate = new DateTime(selectedDate.Year, selectedDate.Month, 1);
+            DateTime endDate = new DateTime(selectedDate.Year, selectedDate.Month,
+                DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month));
+            DashboardViewModel viewModel = this.PrepareScheduleData(user, startDate, endDate);
+
+            return View("Index", viewModel);
         }
 
-        //POST: PreviousMonth()
         [HttpPost]
-        public ActionResult PreviousMonth(DashboardViewModel viewModel)
+        public ActionResult AddSchedule(DateTime date)
         {
-            DateTime nextMonth = viewModel.SelectedDate.AddMonths(-1);
-            DateTime startDate = new DateTime(nextMonth.Year, nextMonth.Month, 1);
-            DateTime endDate = new DateTime(nextMonth.Year, nextMonth.Month, DateTime.DaysInMonth(nextMonth.Year, nextMonth.Month));
-            return View("Index", this.PrepareScheduleData(viewModel.CurrentUser, startDate, endDate));
+            UserEntity user = null;
+            if (Session["Username"] != null)
+            {
+                user = _userRepository.GetUserByUsername(Session["Username"].ToString());
+            }
+
+            if (user == null)
+            {
+                return View("~/Views/Home/Index.cshtml");
+            }
+
+            bool addSuccess = _hotelingRepository.AddSchedule(new ScheduleEntity()
+            {
+                User = user,
+                ScheduleDate = date,
+                ApplicationDate = DateTime.Now,
+                Status = new StatusEntity() { StatusUID = 1},
+                RecordCreateDate = DateTime.Now,
+                RecordCreateUserId = user.Username,
+                RecordUpdateDate = DateTime.Now,
+                RecordUpdateUserId = user.Username
+            });
+
+            return Json(new {success = addSuccess });
+        }
+
+        [HttpPost]
+        public ActionResult UpdateSchedule(long scheduleUid, short statusUid)
+        {
+            UserEntity user = null;
+            if (Session["Username"] != null)
+            {
+                user = _userRepository.GetUserByUsername(Session["Username"].ToString());
+            }
+
+            if (user == null)
+            {
+                return View("~/Views/Home/Index.cshtml");
+            }
+
+            bool updateSuccess = _hotelingRepository.UpdateSchedule(new ScheduleEntity()
+            {
+                User = user,
+                ScheduleUID = scheduleUid,
+                Status = new StatusEntity() { StatusUID = statusUid },
+                ApprovedBy = statusUid == 2 ? user.Username : null,
+                RecordUpdateDate = DateTime.Now,
+                RecordUpdateUserId = user.Username
+            });
+
+            return Json(new { success = updateSuccess });
         }
 
         /// <summary>
@@ -83,11 +142,13 @@ namespace OptumPresence.Controllers
                 ScheduleListViewModel scheduleListViewModel = new ScheduleListViewModel()
                 {
                     Date = startDate,
-                    Schedules = scheds.Where(sched => sched.ScheduleDate.Equals(startDate)).ToList()
+                    Schedules = scheds.Where(sched => sched.ScheduleDate.Equals(startDate)).ToList(),
+                    CurrentUser = user
                 };
-                viewModel.ScheduleDays.Add(scheduleListViewModel);
+                viewModel.ScheduleDays.Add(startDate.Day, scheduleListViewModel);
                 startDate = startDate.AddDays(1);
-            } while (startDate < endDate);
+            } while (startDate <= endDate);
+            startDate = startDate.AddMonths(-1);
 
             viewModel.SelectedDate = 
                 viewModel.CurrentDate.Month == startDate.Month &&

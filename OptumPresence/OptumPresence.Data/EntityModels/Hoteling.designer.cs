@@ -22,7 +22,7 @@ namespace OptumPresence.Data.EntityModels
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="Hoteling")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="DB_101392_mgonline")]
 	public partial class HotelingDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,25 +30,25 @@ namespace OptumPresence.Data.EntityModels
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
-    partial void InsertPosition(Position instance);
-    partial void UpdatePosition(Position instance);
-    partial void DeletePosition(Position instance);
-    partial void InsertTeam(Team instance);
-    partial void UpdateTeam(Team instance);
-    partial void DeleteTeam(Team instance);
-    partial void InsertSchedule(Schedule instance);
-    partial void UpdateSchedule(Schedule instance);
-    partial void DeleteSchedule(Schedule instance);
-    partial void InsertStatus(Status instance);
-    partial void UpdateStatus(Status instance);
-    partial void DeleteStatus(Status instance);
+    partial void Inserttbl4User(tbl4User instance);
+    partial void Updatetbl4User(tbl4User instance);
+    partial void Deletetbl4User(tbl4User instance);
+    partial void Inserttbl4Position(tbl4Position instance);
+    partial void Updatetbl4Position(tbl4Position instance);
+    partial void Deletetbl4Position(tbl4Position instance);
+    partial void Inserttbl4Team(tbl4Team instance);
+    partial void Updatetbl4Team(tbl4Team instance);
+    partial void Deletetbl4Team(tbl4Team instance);
+    partial void Inserttbl4Schedule(tbl4Schedule instance);
+    partial void Updatetbl4Schedule(tbl4Schedule instance);
+    partial void Deletetbl4Schedule(tbl4Schedule instance);
+    partial void Inserttbl4Status(tbl4Status instance);
+    partial void Updatetbl4Status(tbl4Status instance);
+    partial void Deletetbl4Status(tbl4Status instance);
     #endregion
 		
 		public HotelingDataContext() : 
-				base(global::OptumPresence.Data.Properties.Settings.Default.HotelingConnectionString, mappingSource)
+				base(global::OptumPresence.Data.Properties.Settings.Default.DB_101392_mgonlineConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -77,49 +77,49 @@ namespace OptumPresence.Data.EntityModels
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<User> Users
+		public System.Data.Linq.Table<tbl4User> tbl4Users
 		{
 			get
 			{
-				return this.GetTable<User>();
+				return this.GetTable<tbl4User>();
 			}
 		}
 		
-		public System.Data.Linq.Table<Position> Positions
+		public System.Data.Linq.Table<tbl4Position> tbl4Positions
 		{
 			get
 			{
-				return this.GetTable<Position>();
+				return this.GetTable<tbl4Position>();
 			}
 		}
 		
-		public System.Data.Linq.Table<Team> Teams
+		public System.Data.Linq.Table<tbl4Team> tbl4Teams
 		{
 			get
 			{
-				return this.GetTable<Team>();
+				return this.GetTable<tbl4Team>();
 			}
 		}
 		
-		public System.Data.Linq.Table<Schedule> Schedules
+		public System.Data.Linq.Table<tbl4Schedule> tbl4Schedules
 		{
 			get
 			{
-				return this.GetTable<Schedule>();
+				return this.GetTable<tbl4Schedule>();
 			}
 		}
 		
-		public System.Data.Linq.Table<Status> Status
+		public System.Data.Linq.Table<tbl4Status> tbl4Status
 		{
 			get
 			{
-				return this.GetTable<Status>();
+				return this.GetTable<tbl4Status>();
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl4User")]
+	public partial class tbl4User : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -146,11 +146,11 @@ namespace OptumPresence.Data.EntityModels
 		
 		private string _RecordUpdateUserID;
 		
-		private EntitySet<Schedule> _Schedules;
+		private EntitySet<tbl4Schedule> _tbl4Schedules;
 		
-		private EntityRef<Position> _Position;
+		private EntityRef<tbl4Position> _tbl4Position;
 		
-		private EntityRef<Team> _Team;
+		private EntityRef<tbl4Team> _tbl4Team;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -180,11 +180,11 @@ namespace OptumPresence.Data.EntityModels
     partial void OnRecordUpdateUserIDChanged();
     #endregion
 		
-		public User()
+		public tbl4User()
 		{
-			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
-			this._Position = default(EntityRef<Position>);
-			this._Team = default(EntityRef<Team>);
+			this._tbl4Schedules = new EntitySet<tbl4Schedule>(new Action<tbl4Schedule>(this.attach_tbl4Schedules), new Action<tbl4Schedule>(this.detach_tbl4Schedules));
+			this._tbl4Position = default(EntityRef<tbl4Position>);
+			this._tbl4Team = default(EntityRef<tbl4Team>);
 			OnCreated();
 		}
 		
@@ -228,7 +228,7 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
 		public string Password
 		{
 			get
@@ -299,7 +299,7 @@ namespace OptumPresence.Data.EntityModels
 			{
 				if ((this._PositionUID != value))
 				{
-					if (this._Position.HasLoadedOrAssignedValue)
+					if (this._tbl4Position.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -323,7 +323,7 @@ namespace OptumPresence.Data.EntityModels
 			{
 				if ((this._TeamUID != value))
 				{
-					if (this._Team.HasLoadedOrAssignedValue)
+					if (this._tbl4Team.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -416,83 +416,83 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Schedule", Storage="_Schedules", ThisKey="UserUID", OtherKey="UserUID")]
-		public EntitySet<Schedule> Schedules
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl4User_tbl4Schedule", Storage="_tbl4Schedules", ThisKey="UserUID", OtherKey="UserUID")]
+		public EntitySet<tbl4Schedule> tbl4Schedules
 		{
 			get
 			{
-				return this._Schedules;
+				return this._tbl4Schedules;
 			}
 			set
 			{
-				this._Schedules.Assign(value);
+				this._tbl4Schedules.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_User", Storage="_Position", ThisKey="PositionUID", OtherKey="PositionUID", IsForeignKey=true)]
-		public Position Position
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl4Position_tbl4User", Storage="_tbl4Position", ThisKey="PositionUID", OtherKey="PositionUID", IsForeignKey=true)]
+		public tbl4Position tbl4Position
 		{
 			get
 			{
-				return this._Position.Entity;
+				return this._tbl4Position.Entity;
 			}
 			set
 			{
-				Position previousValue = this._Position.Entity;
+				tbl4Position previousValue = this._tbl4Position.Entity;
 				if (((previousValue != value) 
-							|| (this._Position.HasLoadedOrAssignedValue == false)))
+							|| (this._tbl4Position.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Position.Entity = null;
-						previousValue.Users.Remove(this);
+						this._tbl4Position.Entity = null;
+						previousValue.tbl4Users.Remove(this);
 					}
-					this._Position.Entity = value;
+					this._tbl4Position.Entity = value;
 					if ((value != null))
 					{
-						value.Users.Add(this);
+						value.tbl4Users.Add(this);
 						this._PositionUID = value.PositionUID;
 					}
 					else
 					{
 						this._PositionUID = default(Nullable<long>);
 					}
-					this.SendPropertyChanged("Position");
+					this.SendPropertyChanged("tbl4Position");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_User", Storage="_Team", ThisKey="TeamUID", OtherKey="TeamUID", IsForeignKey=true)]
-		public Team Team
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl4Team_tbl4User", Storage="_tbl4Team", ThisKey="TeamUID", OtherKey="TeamUID", IsForeignKey=true)]
+		public tbl4Team tbl4Team
 		{
 			get
 			{
-				return this._Team.Entity;
+				return this._tbl4Team.Entity;
 			}
 			set
 			{
-				Team previousValue = this._Team.Entity;
+				tbl4Team previousValue = this._tbl4Team.Entity;
 				if (((previousValue != value) 
-							|| (this._Team.HasLoadedOrAssignedValue == false)))
+							|| (this._tbl4Team.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Team.Entity = null;
-						previousValue.Users.Remove(this);
+						this._tbl4Team.Entity = null;
+						previousValue.tbl4Users.Remove(this);
 					}
-					this._Team.Entity = value;
+					this._tbl4Team.Entity = value;
 					if ((value != null))
 					{
-						value.Users.Add(this);
+						value.tbl4Users.Add(this);
 						this._TeamUID = value.TeamUID;
 					}
 					else
 					{
 						this._TeamUID = default(Nullable<long>);
 					}
-					this.SendPropertyChanged("Team");
+					this.SendPropertyChanged("tbl4Team");
 				}
 			}
 		}
@@ -517,21 +517,21 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		private void attach_Schedules(Schedule entity)
+		private void attach_tbl4Schedules(tbl4Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.User = this;
+			entity.tbl4User = this;
 		}
 		
-		private void detach_Schedules(Schedule entity)
+		private void detach_tbl4Schedules(tbl4Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.User = null;
+			entity.tbl4User = null;
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Position")]
-	public partial class Position : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl4Position")]
+	public partial class tbl4Position : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -548,7 +548,7 @@ namespace OptumPresence.Data.EntityModels
 		
 		private string _RecordUpdateUserID;
 		
-		private EntitySet<User> _Users;
+		private EntitySet<tbl4User> _tbl4Users;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -568,9 +568,9 @@ namespace OptumPresence.Data.EntityModels
     partial void OnRecordUpdateUserIDChanged();
     #endregion
 		
-		public Position()
+		public tbl4Position()
 		{
-			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._tbl4Users = new EntitySet<tbl4User>(new Action<tbl4User>(this.attach_tbl4Users), new Action<tbl4User>(this.detach_tbl4Users));
 			OnCreated();
 		}
 		
@@ -694,16 +694,16 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Position_User", Storage="_Users", ThisKey="PositionUID", OtherKey="PositionUID")]
-		public EntitySet<User> Users
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl4Position_tbl4User", Storage="_tbl4Users", ThisKey="PositionUID", OtherKey="PositionUID")]
+		public EntitySet<tbl4User> tbl4Users
 		{
 			get
 			{
-				return this._Users;
+				return this._tbl4Users;
 			}
 			set
 			{
-				this._Users.Assign(value);
+				this._tbl4Users.Assign(value);
 			}
 		}
 		
@@ -727,21 +727,21 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		private void attach_Users(User entity)
+		private void attach_tbl4Users(tbl4User entity)
 		{
 			this.SendPropertyChanging();
-			entity.Position = this;
+			entity.tbl4Position = this;
 		}
 		
-		private void detach_Users(User entity)
+		private void detach_tbl4Users(tbl4User entity)
 		{
 			this.SendPropertyChanging();
-			entity.Position = null;
+			entity.tbl4Position = null;
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Team")]
-	public partial class Team : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl4Team")]
+	public partial class tbl4Team : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -758,7 +758,7 @@ namespace OptumPresence.Data.EntityModels
 		
 		private string _RecordUpdateUserID;
 		
-		private EntitySet<User> _Users;
+		private EntitySet<tbl4User> _tbl4Users;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -778,9 +778,9 @@ namespace OptumPresence.Data.EntityModels
     partial void OnRecordUpdateUserIDChanged();
     #endregion
 		
-		public Team()
+		public tbl4Team()
 		{
-			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._tbl4Users = new EntitySet<tbl4User>(new Action<tbl4User>(this.attach_tbl4Users), new Action<tbl4User>(this.detach_tbl4Users));
 			OnCreated();
 		}
 		
@@ -904,16 +904,16 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Team_User", Storage="_Users", ThisKey="TeamUID", OtherKey="TeamUID")]
-		public EntitySet<User> Users
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl4Team_tbl4User", Storage="_tbl4Users", ThisKey="TeamUID", OtherKey="TeamUID")]
+		public EntitySet<tbl4User> tbl4Users
 		{
 			get
 			{
-				return this._Users;
+				return this._tbl4Users;
 			}
 			set
 			{
-				this._Users.Assign(value);
+				this._tbl4Users.Assign(value);
 			}
 		}
 		
@@ -937,21 +937,21 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		private void attach_Users(User entity)
+		private void attach_tbl4Users(tbl4User entity)
 		{
 			this.SendPropertyChanging();
-			entity.Team = this;
+			entity.tbl4Team = this;
 		}
 		
-		private void detach_Users(User entity)
+		private void detach_tbl4Users(tbl4User entity)
 		{
 			this.SendPropertyChanging();
-			entity.Team = null;
+			entity.tbl4Team = null;
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Schedule")]
-	public partial class Schedule : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl4Schedule")]
+	public partial class tbl4Schedule : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -976,9 +976,9 @@ namespace OptumPresence.Data.EntityModels
 		
 		private string _RecordUpdateUserID;
 		
-		private EntityRef<User> _User;
+		private EntityRef<tbl4User> _tbl4User;
 		
-		private EntityRef<Status> _Status;
+		private EntityRef<tbl4Status> _tbl4Status;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1006,10 +1006,10 @@ namespace OptumPresence.Data.EntityModels
     partial void OnRecordUpdateUserIDChanged();
     #endregion
 		
-		public Schedule()
+		public tbl4Schedule()
 		{
-			this._User = default(EntityRef<User>);
-			this._Status = default(EntityRef<Status>);
+			this._tbl4User = default(EntityRef<tbl4User>);
+			this._tbl4Status = default(EntityRef<tbl4Status>);
 			OnCreated();
 		}
 		
@@ -1044,7 +1044,7 @@ namespace OptumPresence.Data.EntityModels
 			{
 				if ((this._UserUID != value))
 				{
-					if (this._User.HasLoadedOrAssignedValue)
+					if (this._tbl4User.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -1108,7 +1108,7 @@ namespace OptumPresence.Data.EntityModels
 			{
 				if ((this._StatusUID != value))
 				{
-					if (this._Status.HasLoadedOrAssignedValue)
+					if (this._tbl4Status.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -1221,70 +1221,70 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Schedule", Storage="_User", ThisKey="UserUID", OtherKey="UserUID", IsForeignKey=true)]
-		public User User
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl4User_tbl4Schedule", Storage="_tbl4User", ThisKey="UserUID", OtherKey="UserUID", IsForeignKey=true)]
+		public tbl4User tbl4User
 		{
 			get
 			{
-				return this._User.Entity;
+				return this._tbl4User.Entity;
 			}
 			set
 			{
-				User previousValue = this._User.Entity;
+				tbl4User previousValue = this._tbl4User.Entity;
 				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
+							|| (this._tbl4User.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._User.Entity = null;
-						previousValue.Schedules.Remove(this);
+						this._tbl4User.Entity = null;
+						previousValue.tbl4Schedules.Remove(this);
 					}
-					this._User.Entity = value;
+					this._tbl4User.Entity = value;
 					if ((value != null))
 					{
-						value.Schedules.Add(this);
+						value.tbl4Schedules.Add(this);
 						this._UserUID = value.UserUID;
 					}
 					else
 					{
 						this._UserUID = default(long);
 					}
-					this.SendPropertyChanged("User");
+					this.SendPropertyChanged("tbl4User");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Status_Schedule", Storage="_Status", ThisKey="StatusUID", OtherKey="StatusUID", IsForeignKey=true)]
-		public Status Status
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl4Status_tbl4Schedule", Storage="_tbl4Status", ThisKey="StatusUID", OtherKey="StatusUID", IsForeignKey=true)]
+		public tbl4Status tbl4Status
 		{
 			get
 			{
-				return this._Status.Entity;
+				return this._tbl4Status.Entity;
 			}
 			set
 			{
-				Status previousValue = this._Status.Entity;
+				tbl4Status previousValue = this._tbl4Status.Entity;
 				if (((previousValue != value) 
-							|| (this._Status.HasLoadedOrAssignedValue == false)))
+							|| (this._tbl4Status.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Status.Entity = null;
-						previousValue.Schedules.Remove(this);
+						this._tbl4Status.Entity = null;
+						previousValue.tbl4Schedules.Remove(this);
 					}
-					this._Status.Entity = value;
+					this._tbl4Status.Entity = value;
 					if ((value != null))
 					{
-						value.Schedules.Add(this);
+						value.tbl4Schedules.Add(this);
 						this._StatusUID = value.StatusUID;
 					}
 					else
 					{
 						this._StatusUID = default(short);
 					}
-					this.SendPropertyChanged("Status");
+					this.SendPropertyChanged("tbl4Status");
 				}
 			}
 		}
@@ -1310,8 +1310,8 @@ namespace OptumPresence.Data.EntityModels
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Status")]
-	public partial class Status : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl4Status")]
+	public partial class tbl4Status : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1328,7 +1328,7 @@ namespace OptumPresence.Data.EntityModels
 		
 		private string _RecordUpdateUserID;
 		
-		private EntitySet<Schedule> _Schedules;
+		private EntitySet<tbl4Schedule> _tbl4Schedules;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1348,9 +1348,9 @@ namespace OptumPresence.Data.EntityModels
     partial void OnRecordUpdateUserIDChanged();
     #endregion
 		
-		public Status()
+		public tbl4Status()
 		{
-			this._Schedules = new EntitySet<Schedule>(new Action<Schedule>(this.attach_Schedules), new Action<Schedule>(this.detach_Schedules));
+			this._tbl4Schedules = new EntitySet<tbl4Schedule>(new Action<tbl4Schedule>(this.attach_tbl4Schedules), new Action<tbl4Schedule>(this.detach_tbl4Schedules));
 			OnCreated();
 		}
 		
@@ -1474,16 +1474,16 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Status_Schedule", Storage="_Schedules", ThisKey="StatusUID", OtherKey="StatusUID")]
-		public EntitySet<Schedule> Schedules
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl4Status_tbl4Schedule", Storage="_tbl4Schedules", ThisKey="StatusUID", OtherKey="StatusUID")]
+		public EntitySet<tbl4Schedule> tbl4Schedules
 		{
 			get
 			{
-				return this._Schedules;
+				return this._tbl4Schedules;
 			}
 			set
 			{
-				this._Schedules.Assign(value);
+				this._tbl4Schedules.Assign(value);
 			}
 		}
 		
@@ -1507,16 +1507,16 @@ namespace OptumPresence.Data.EntityModels
 			}
 		}
 		
-		private void attach_Schedules(Schedule entity)
+		private void attach_tbl4Schedules(tbl4Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.Status = this;
+			entity.tbl4Status = this;
 		}
 		
-		private void detach_Schedules(Schedule entity)
+		private void detach_tbl4Schedules(tbl4Schedule entity)
 		{
 			this.SendPropertyChanging();
-			entity.Status = null;
+			entity.tbl4Status = null;
 		}
 	}
 }

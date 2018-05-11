@@ -8,7 +8,7 @@ namespace OptumPresence.Data.Users.Mappers
     /// </summary>
     public class UserMapper : IUserMapper
     {
-        public void DataToBusiness(User user, UserEntity userEntity)
+        public void DataToBusiness(tbl4User user, UserEntity userEntity)
         {
             if (userEntity != null && user != null)
             {
@@ -17,12 +17,12 @@ namespace OptumPresence.Data.Users.Mappers
                 userEntity.Password = user.Password;
                 userEntity.LastName = user.LastName;
                 userEntity.FirstName = user.FirstName;
-                this.DataToBusiness(user.Position, userEntity.Position);
-                this.DataToBusiness(user.Team, userEntity.Team);
+                this.DataToBusiness(user.tbl4Position, userEntity.Position);
+                this.DataToBusiness(user.tbl4Team, userEntity.Team);
             }
         }
 
-        public void DataToBusiness(Position position, PositionEntity positionEntity)
+        public void DataToBusiness(tbl4Position position, PositionEntity positionEntity)
         {
             if (positionEntity != null && position != null)
             {
@@ -31,7 +31,7 @@ namespace OptumPresence.Data.Users.Mappers
             }
         }
 
-        public void DataToBusiness(Team team, TeamEntity teamEntity)
+        public void DataToBusiness(tbl4Team team, TeamEntity teamEntity)
         {
             if (teamEntity != null && team != null)
             {

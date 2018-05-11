@@ -13,13 +13,13 @@ namespace OptumPresence.Data.Hoteling.Mappers
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleEntity"></param>
-        void DataToBusiness(Schedule schedule, ScheduleEntity scheduleEntity);
+        void DataToBusiness(tbl4Schedule schedule, ScheduleEntity scheduleEntity);
 
         /// <summary>
         /// Convert status data to status entity
         /// </summary>
         /// <param name="status"></param>
         /// <param name="statusEntity"></param>
-        void DataToBusiness(Status status, StatusEntity statusEntity);
+        void DataToBusiness(tbl4Status status, StatusEntity statusEntity);
     }
 }

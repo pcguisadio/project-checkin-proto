@@ -1,43 +1,104 @@
-﻿@model OptumPresence.Models.Dashboard.DashboardViewModel
+﻿@using System.Web.Razor.Generator
+@model OptumPresence.Models.Dashboard.DashboardViewModel
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    DateTime dateOfMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+    DateTime dateOfMonth = new DateTime(Model.SelectedDate.Year, Model.SelectedDate.Month, 1);
     int month = dateOfMonth.Month;
-    short dayCounter = 1;
-    IEnumerable<DayOfWeek> daysOfWeek = Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>();
 }
 @section Scripts{
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('.selectableDate').css('cursor', 'pointer');
-            $('.selectableDate').hover(function () {
-                $(this).css('border-color', 'black');
-            }, function () {
-                $(this).css('border-color', '#DDDDDD');
+        $(document).ready(function() {
+            $('.selectableDate').hover(function() {
+                    $(this).css('border-color', 'black');
+                },
+                function() {
+                    $(this).css('border-color', '#DDDDDD');
+                });
+
+            $('#btnPrev').click(function() {
+                window.location.href = '@Url.Action("GetSchedules")' +
+                    '?selectedDate=' +
+                    '@(new DateTime(Model.SelectedDate.AddMonths(-1).Year, Model.SelectedDate.AddMonths(-1).Month, 1))';
+            });
+            $('#btnNext').click(function() {
+                window.location.href = '@Url.Action("GetSchedules")' +
+                    '?selectedDate=' +
+                    '@(new DateTime(Model.SelectedDate.AddMonths(1).Year, Model.SelectedDate.AddMonths(1).Month, 1))';
             });
 
-            $('#btnPrev').click(function () {
-                $('#frmDashboard').attr('action', 'PreviousMonth');
-                $('#frmDashboard').submit();
-            });
+            if ('@Model.IsApprover' === 'True') {
+                $('.schedUpdatable').css('cursor', 'pointer');
 
-            $('#btnNext').click(function () {
-                $('#frmDashboard').attr('action', 'NextMonth');
-                $('#frmDashboard').submit();
-            });
+                $('#btnPending').click(function() {
+                    $('#ActionModal').modal('hide');
+                    $.post('@Url.Action("UpdateSchedule")',
+                        { scheduleUid: $('#selectedSchedUid').val(), statusUid: 1 },
+                        function(data) {
+                            window.location.href = '@Url.Action("GetSchedules")' +
+                                '?selectedDate=' +
+                                '@(new DateTime(Model.SelectedDate.Year, Model.SelectedDate.Month, 1))';
+                            return false;
+                        });
+                });
+
+                $('#btnApprove').click(function() {
+                    $('#ActionModal').modal('hide');
+                    $.post('@Url.Action("UpdateSchedule")',
+                        { scheduleUid: $('#selectedSchedUid').val(), statusUid: 2 },
+                        function(data) {
+                            window.location.href = '@Url.Action("GetSchedules")' +
+                                '?selectedDate=' +
+                                '@(new DateTime(Model.SelectedDate.Year, Model.SelectedDate.Month, 1))';
+                            return false;
+                        });
+                });
+
+                $('#btnDecline').click(function() {
+                    $('#ActionModal').modal('hide');
+                    $.post('@Url.Action("UpdateSchedule")',
+                        { scheduleUid: $('#selectedSchedUid').val(), statusUid: 3 },
+                        function(data) {
+                            window.location.href = '@Url.Action("GetSchedules")' +
+                                '?selectedDate=' +
+                                '@(new DateTime(Model.SelectedDate.Year, Model.SelectedDate.Month, 1))';
+                            return false;
+                        });
+                });
+            }
         });
+
+        //Called by partial view button
+        function AddSchedule(inputDate) {
+            $.post('@Url.Action("AddSchedule")',
+                { date: inputDate },
+                function(data) {
+                    window.location.href = '@Url.Action("GetSchedules")' +
+                        '?selectedDate=' +
+                        '@(new DateTime(Model.SelectedDate.Year, Model.SelectedDate.Month, 1))';
+                    return false;
+                });
+        }
+
+        function ShowActionModal(scheduleUid) {
+            if ('@Model.IsApprover' === 'True') {
+                $('#selectedSchedUid').val(scheduleUid);
+                $('#ActionModal').modal('show');
+            }
+        }
     </script>
 }
-<h2>Hoteling Schedule for <b>@dateOfMonth.ToString("MMMM")</b> </h2>
-@using (Html.BeginForm("NextMonth", "Dashboard", FormMethod.Post, new { id = "frmDashboard"}))
+<h2>Hoteling Schedule for <b>@dateOfMonth.ToString("MMMM yyyy")</b> </h2>
+<h4>Team <b>@Model.CurrentUser.Team.TeamName</b></h4>
+@using (Html.BeginForm("Index", "Dashboard", FormMethod.Post, new { id = "frmDashboard"}))
 {
-    @Html.HiddenFor(model => model.TeamUID)
-    <div class="pull-left"><button id="btnPrev" class="btn btn-sm btn-default">Prev</button></div>
-    <div class="pull-right"><button id="btnNext" class="btn btn-sm btn-default">Next</button></div>
+    @Html.HiddenFor(model => model.SelectedDate)
+    @Html.Hidden("TeamUID", Model.TeamUID)
+    <div class="pull-left"><button id="btnPrev" class="btn btn-sm btn-default" onclick="return false;">Prev</button></div>
+    <div class="pull-right"><button id="btnNext" class="btn btn-sm btn-default" onclick="return false;">Next</button></div>
     <table class="table table-bordered" style="margin-top: 20px">
-        <tr style="background-color: #FF8B00">
+        <tr style="background-color: #FF9A2A">
             <th>Sun</th>
             <th>Mon</th>
             <th>Tues</th>
@@ -49,18 +110,25 @@
         @do
         {
             <tr style="height: 200px">
-                @foreach (DayOfWeek dayOfWeek in daysOfWeek)
+                @foreach (DayOfWeek dayOfWeek in Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>())
                 {
                     if (dateOfMonth.DayOfWeek == dayOfWeek && dateOfMonth.Month == month)
                     {
+                        if (dayOfWeek == DayOfWeek.Sunday || dayOfWeek == DayOfWeek.Saturday)
+                        {
+                            <td style="background-color: #B89F81"></td>
+                        }
+                        else
+                        {
                             <td class="selectableDate">
-                                @Html.Partial("~/Partial/ScheduleList.cshtml", Model.ScheduleDays[dayCounter++])
+                                @Html.Partial("~/Views/Dashboard/Partial/_ScheduleList.cshtml", Model.ScheduleDays[dateOfMonth.Day])
                             </td>
+                        }
                         dateOfMonth = dateOfMonth.AddDays(1);
                     }
                     else
                     {
-                            <td style="background-color: #B89F81"></td>
+                        <td style="background-color: gray"></td>
                     }
                 }
             </tr>
@@ -68,5 +136,29 @@
 
     </table>
 }
+
+@*Action Modal*@
+<div id="ActionModal" class="modal" tabindex="-1" role="dialog">
+    <input type="hidden" id="selectedSchedUid"/>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">JUDGEMENT</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>What is thy verdict?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="btnPending" type="button" class="btn btn-info">Pending</button>
+                <button id="btnApprove" type="button" class="btn btn-success">Approve</button>
+                <button id="btnDecline" type="button" class="btn btn-danger">Decline</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
