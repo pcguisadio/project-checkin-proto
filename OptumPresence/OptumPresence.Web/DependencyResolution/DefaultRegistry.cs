@@ -15,16 +15,13 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using OptumPresence.Data.Hoteling;
-using OptumPresence.Data.Hoteling.Mappers;
-using OptumPresence.Domain.Interfaces;
-using OptumPresence.Data.Users;
-using OptumPresence.Data.Users.Mappers;
-
 namespace OptumPresence.DependencyResolution {
+    using OptumPresence.Data.Hoteling;
+    using OptumPresence.Data.Hoteling.Mappers;
+    using OptumPresence.Data.Users;
+    using OptumPresence.Data.Users.Mappers;
+    using OptumPresence.Domain.Interfaces;
     using StructureMap;
-    using StructureMap.Configuration.DSL;
-    using StructureMap.Graph;
 	
     public class DefaultRegistry : Registry {
         #region Constructors and Destructors
